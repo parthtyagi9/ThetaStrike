@@ -1,4 +1,4 @@
-# thetawave
+# thetastrike
 This software estimates the future value of financial options using mathematical models, such as the Black-Scholes model and Monte Carlo simulation. It is intended for traders, quantitative analysts, and developers who want to analyse the expected worth of options under various market assumptions.
 
 Features:
