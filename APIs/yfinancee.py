@@ -19,12 +19,12 @@ def fetch_option_data(ticker_symbol, expire_date, strike_price, option_type, ath
 
 
 def trial():
-    ticker_name = yf.Ticker("PLTR")
+    ticker_name = yf.Ticker("SPY")
     # print(ticker_name.fast_info["preMarketChange"])
-    # print(ticker_name.history(period="1d", interval="1m", prepost=True))
-    # print(ticker_name.option_chain(ticker_name.options[0]).puts)
-    calls_df = ticker_name.option_chain('2025-08-01').calls
-    print(calls_df)
+    # print(ticker_name.history(period="1d", interval="1m", prepost=True).iloc[-1]["Close"])
+    print(ticker_name.option_chain().puts.index.dtype)
+    # calls_df = ticker_name.option_chain('2025-08-01').calls
+    # print(calls_df)
 
 
 print(trial())
