@@ -6,16 +6,16 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from core.estimator import is_market_open
 
 def fetch_option_data(ticker_symbol, expire_date, strike_price, option_type, ath):
+    data = []
     ticker = yf.ticker(ticker_symbol)
 
     current_price = ticker.fast_info["last_price"]
     current_price_ath  = ticker.history(period="1d", interval="1m", prepost=True)
 
-
     if ath == 0 or is_market_open:
-        return current_price
+        data.append[current_price]
     else:
-        return current_price_ath
+        data.append[current_price_ath]
 
 
 def trial():
