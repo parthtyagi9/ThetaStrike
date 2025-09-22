@@ -14,12 +14,7 @@ class black_scholes:
         sigma: Volatility
         option_type: "call" or "put"
     """
-    S: float
-    K: float
-    T: float
-    R: float
-    sigma: float
-    option_type: str
+    S: float; K: float; T: float; R: float; sigma: float; option_type: str
 
     def __init__(self, S, K, R, sigma, T, option_type="call"):
         self.S = S
