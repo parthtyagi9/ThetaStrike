@@ -2,8 +2,8 @@ import math
 from dataclasses import dataclass
 from typing import Literal
 
-from src.core.black_scholes import black_scholes
-from src.core.binomial import OptionParamsBinomial, binomial
+from src.core.black_scholes import BlackScholes
+from src.core.binomial import OptionParamsBinomial, american_binomial
 
 
 @dataclass
@@ -30,22 +30,24 @@ def evaluate_option_price(params: EvaluationParams) -> float:
     Returns:
         float: option price at the evaluation date.
     """
-    # Remaining time to expiry
+
     T_remaining = params.T_total - params.t_elapsed
     if T_remaining <= 0:
-        # option has expired
-        return max(0, (params.S_future - params.K) if params.option_type == "call" else (params.K - params.S_future))
+        if params.option_type == "call":
+            return max(params.S_future - params.K, 0.0)
+        else:
+            return max(params.K - params.S_future, 0.0)
 
     if params.model == "european":
-        opt = black_scholes(
+        bs = BlackScholes(
             S=params.S_future,
             K=params.K,
-            T=T_remaining,
-            r=params.r,
+            R=params.r,
             sigma=params.sigma,
-            option_type=params.option_type
+            T=T_remaining,
+            option_type=params.option_type,
         )
-        return black_scholes(opt)
+        return bs.calculate_option_price()
 
     elif params.model == "american":
         opt = OptionParamsBinomial(
@@ -57,7 +59,7 @@ def evaluate_option_price(params: EvaluationParams) -> float:
             steps=params.steps,
             option_type=params.option_type
         )
-        return binomial(opt)
+        return american_binomial(opt)
 
     else:
         raise ValueError("model must be 'european' or 'american'")
