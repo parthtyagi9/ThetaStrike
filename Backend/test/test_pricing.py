@@ -23,7 +23,6 @@ def test_binomial():
 
 
 def test_evaluate():
-    # European call, predicted S=120 after 0.25 years
     euro_params = EvaluationParams(
         model="european",
         option_type="call",
@@ -36,7 +35,6 @@ def test_evaluate():
     )
     print("Eval European Call:", evaluate_option_price(euro_params))
 
-    # American put, predicted S=120 after 0.25 years
     amer_params = EvaluationParams(
         model="american",
         option_type="put",
