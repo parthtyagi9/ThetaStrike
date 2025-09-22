@@ -1,3 +1,6 @@
+import sys, os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 from src.core.black_scholes import BlackScholes
 from src.core.binomial import OptionParamsBinomial, american_binomial
 from src.pricing_engine.evaluate import EvaluationParams, evaluate_option_price
