@@ -67,3 +67,20 @@ def get_option_chain_by_expiry(ticker_symbol: str, expiry: str) -> pd.DataFrame:
     puts = chain.puts.assign(expiration=expiry, option_type="put")
     return pd.concat([calls, puts], ignore_index=True)
 
+def get_iv(ticker: str, expiry: str, strike: float, option_type: str = "call") -> float:
+    """
+    Fetch implied volatility for a given option contract.
+    """
+    tk = yf.Ticker(ticker)
+    chain = tk.option_chain(expiry)
+
+    if option_type.lower() == "call":
+        df = chain.calls
+    else:
+        df = chain.puts
+
+    row = df[df["strike"] == strike]
+    if row.empty:
+        raise ValueError(f"No {option_type} option at strike {strike} for {ticker} {expiry}")
+
+    return float(row["impliedVolatility"].iloc[0])

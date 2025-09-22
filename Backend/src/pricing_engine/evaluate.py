@@ -16,7 +16,7 @@ class EvaluationParams:
     t_elapsed: float  # time elapsed until evaluation date (years)
     r: float          # risk-free rate
     sigma: float      # volatility
-    steps: int = 200  # binomial steps for American
+    steps: int = 1000  # binomial steps for American
 
 
 def evaluate_option_price(params: EvaluationParams) -> float:
