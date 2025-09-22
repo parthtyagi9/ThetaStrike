@@ -1,28 +1,28 @@
 import math
+from dataclasses import dataclass
+from typing import Literal
 from scipy.stats import norm
 
 
-class black_scholes:
+@dataclass
+class BlackScholes:
     """
-    An estimator to estimate prices of European options.
+    Estimate prices of European options using the Black–Scholes model.
 
     Attributes:
-        S: Spot price today
-        K: Strike price
-        T: Time to maturity in years
-        R: Risk-free rate
-        sigma: Volatility
-        option_type: "call" or "put"
+        S (float): Spot price today
+        K (float): Strike price
+        T (float): Time to maturity in years
+        R (float): Risk-free rate
+        sigma (float): Volatility
+        option_type (str): "call" or "put"
     """
-    S: float; K: float; T: float; R: float; sigma: float; option_type: str
-
-    def __init__(self, S, K, R, sigma, T, option_type="call"):
-        self.S = S
-        self.K = K
-        self.R = R
-        self.sigma = sigma
-        self.T = T
-        self.option_type = option_type.lower()
+    S: float
+    K: float
+    R: float
+    sigma: float
+    T: float
+    option_type: Literal["call", "put"] = "call"
 
     def calculate_option_price(self, S: float = None, T: float = None) -> float:
         """
@@ -35,15 +35,10 @@ class black_scholes:
         T = self.T if T is None else T
 
         if T <= 0:
-            # At or past expiry, use intrinsic value
-            if self.option_type == "call":
-                return max(S - self.K, 0.0)
-            elif self.option_type == "put":
-                return max(self.K - S, 0.0)
-            else:
-                raise ValueError("option_type must be 'call' or 'put'")
+            # At or past expiry, intrinsic value
+            return max(S - self.K, 0.0) if self.option_type == "call" else max(self.K - S, 0.0)
 
-        d1 = (math.log(S / self.K) + (self.R + (self.sigma ** 2) / 2) * T) / (self.sigma * math.sqrt(T))
+        d1 = (math.log(S / self.K) + (self.R + 0.5 * self.sigma ** 2) * T) / (self.sigma * math.sqrt(T))
         d2 = d1 - self.sigma * math.sqrt(T)
 
         if self.option_type == "call":
@@ -58,13 +53,7 @@ class black_scholes:
         Calculate option premium at a future time given predicted stock price
         and time left until expiry.
         """
-        if T_remaining <= 0:  # at (or past) maturity
-            if self.option_type == "call":
-                return max(S_future - self.K, 0.0)
-            elif self.option_type == "put":
-                return max(self.K - S_future, 0.0)
-            else:
-                raise ValueError("option_type must be 'call' or 'put'")
-        else:
-            # Reuse the core BS pricer with overrides
-            return self.calculate_option_price(S=S_future, T=T_remaining)
+        if T_remaining <= 0:
+            return max(S_future - self.K, 0.0) if self.option_type == "call" else max(self.K - S_future, 0.0)
+
+        return self.calculate_option_price(S=S_future, T=T_remaining)
