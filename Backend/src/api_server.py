@@ -110,6 +110,13 @@ def get_stock_price(ticker: str, period: str = "1d", interval: str = "1m", rth: 
 
     return base 
 
+@app.get("/stock/{ticker}/history")
+def get_stock_history(ticker: str, period: str = "1d", interval: str = "1m"):
+    tk = yf.Ticker(ticker)
+    # info = tk.info()
+    df = tk.history(period=period, interval=interval)
+    return{"history": df.tail(5).reset_index().to_dict(orient="records")}
+
 
 if __name__ == "__main__":
     import uvicorn
