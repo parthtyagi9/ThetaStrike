@@ -15,10 +15,14 @@ def option_price(
     strike: float = 150,
     option_type: str = Query("call", enum=["call", "put"]),
     predict_date: str = None,
-    rth: bool = True
+    rth: bool = True,
+    div_yield: float = 0.0
 ):
     stock_df = get_stock_data(ticker_symbol=ticker, start_date="2024-01-01")
     tk = yf.Ticker(ticker)
+    if div_yield == 0.0:
+        info = tk.info
+        div_yield = info.get("dividendYield", 0.0) or 0.0
     if rth:
         S_now = float(stock_df["close"].iloc[-1])
     else:
@@ -49,7 +53,8 @@ def option_price(
         t_elapsed=t_elapsed,
         r=r,
         sigma=sigma,
-        steps=500
+        steps=500,
+        q=div_yield
     )
     price = evaluate_option_price(params)
     return {
@@ -61,7 +66,7 @@ def option_price(
         "model": model,
         "rth": rth,
         "spot_price_used": S_now,
-        "premium": price*2
+        "premium": price
     }
 
 if __name__ == "__main__":

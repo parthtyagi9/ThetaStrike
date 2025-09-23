@@ -7,7 +7,8 @@ from scipy.stats import norm
 @dataclass
 class BlackScholes:
     """
-    Estimate prices of European options using the Black–Scholes model.
+    Estimate prices of European options using the Black–Scholes model
+    with continuous dividend yield.
 
     Attributes:
         S (float): Spot price today
@@ -15,6 +16,7 @@ class BlackScholes:
         T (float): Time to maturity in years
         R (float): Risk-free rate
         sigma (float): Volatility
+        q (float): Continuous dividend yield
         option_type (str): "call" or "put"
     """
     S: float
@@ -22,6 +24,7 @@ class BlackScholes:
     R: float
     sigma: float
     T: float
+    q: float = 0.0
     option_type: Literal["call", "put"] = "call"
 
     def calculate_option_price(self, S: float = None, T: float = None) -> float:
@@ -35,16 +38,15 @@ class BlackScholes:
         T = self.T if T is None else T
 
         if T <= 0:
-            # At or past expiry, intrinsic value
             return max(S - self.K, 0.0) if self.option_type == "call" else max(self.K - S, 0.0)
 
-        d1 = (math.log(S / self.K) + (self.R + 0.5 * self.sigma ** 2) * T) / (self.sigma * math.sqrt(T))
+        d1 = (math.log(S / self.K) + (self.R - self.q + 0.5 * self.sigma ** 2) * T) / (self.sigma * math.sqrt(T))
         d2 = d1 - self.sigma * math.sqrt(T)
 
         if self.option_type == "call":
-            return S * norm.cdf(d1) - self.K * math.exp(-self.R * T) * norm.cdf(d2)
+            return S * math.exp(-self.q * T) * norm.cdf(d1) - self.K * math.exp(-self.R * T) * norm.cdf(d2)
         elif self.option_type == "put":
-            return self.K * math.exp(-self.R * T) * norm.cdf(-d2) - S * norm.cdf(-d1)
+            return self.K * math.exp(-self.R * T) * norm.cdf(-d2) - S * math.exp(-self.q * T) * norm.cdf(-d1)
         else:
             raise ValueError("option_type must be 'call' or 'put'")
 

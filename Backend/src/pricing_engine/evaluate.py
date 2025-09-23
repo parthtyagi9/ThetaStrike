@@ -17,6 +17,7 @@ class EvaluationParams:
     r: float          # risk-free rate
     sigma: float      # volatility
     steps: int = 1000  # binomial steps for American
+    q: float = 0.0
 
 
 def evaluate_option_price(params: EvaluationParams) -> float:
@@ -45,6 +46,7 @@ def evaluate_option_price(params: EvaluationParams) -> float:
             R=params.r,
             sigma=params.sigma,
             T=T_remaining,
+            q=params.q,
             option_type=params.option_type,
         )
         return bs.calculate_option_price()
@@ -57,6 +59,7 @@ def evaluate_option_price(params: EvaluationParams) -> float:
             r=params.r,
             sigma=params.sigma,
             steps=params.steps,
+            q=params.q,
             option_type=params.option_type
         )
         return american_binomial(opt)

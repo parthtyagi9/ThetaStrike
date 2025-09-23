@@ -5,6 +5,7 @@ import pandas as pd
 from datetime import datetime
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from core.estimator import is_market_open
+import numpy as np
 
 def get_stock_data(ticker_symbol: str, start_date: str = "2020-01-01", end: str = None, interval: str = "1d") -> pd.DataFrame:
     """
@@ -72,15 +73,22 @@ def get_iv(ticker: str, expiry: str, strike: float, option_type: str = "call") -
     Fetch implied volatility for a given option contract.
     """
     tk = yf.Ticker(ticker)
+    
+    # ensure expiry is a string
+    expiry = pd.to_datetime(expiry).strftime("%Y-%m-%d")
+    if expiry not in tk.options:
+        raise ValueError(f"Expiry {expiry} not available. Available expiries: {tk.options}")
+
     chain = tk.option_chain(expiry)
+    df = chain.calls if option_type.lower() == "call" else chain.puts
 
-    if option_type.lower() == "call":
-        df = chain.calls
-    else:
-        df = chain.puts
+    # Find nearest strike if exact not present
+    idx = (df["strike"] - strike).abs().idxmin()
+    row = df.loc[idx]
 
-    row = df[df["strike"] == strike]
-    if row.empty:
-        raise ValueError(f"No {option_type} option at strike {strike} for {ticker} {expiry}")
+    iv = row.get("impliedVolatility", np.nan)
 
-    return float(row["impliedVolatility"].iloc[0])
+    if pd.isna(iv) or iv <= 0:
+        raise ValueError(f"No valid IV for {ticker} {option_type} {strike} {expiry}")
+
+    return float(iv)
