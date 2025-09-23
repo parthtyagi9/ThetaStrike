@@ -18,7 +18,8 @@ Features
 Project Structure
 -----------------
 
-project-root/
+```
+ThetaStrike/
 │
 ├── Backend/                 FastAPI backend
 │   ├── src/
@@ -36,7 +37,10 @@ project-root/
 │   │       └── OptionForm.js
 │   └── index.html
 │
-└── README.txt               Project documentation
+└── README.txt
+```  
+
+Project documentation
 
 
 ------------------------------------------------------------
@@ -53,7 +57,7 @@ Backend runs at: http://127.0.0.1:8000
 Interactive docs: http://127.0.0.1:8000/docs
 
 ------------------------------------------------------------
-Frontend Setup (IN PROGRESS)
+Frontend Setup
 ------------------------------------------------------------
 1. Install dependencies:
    cd Frontend
