@@ -18,7 +18,8 @@ Features
 Project Structure
 -----------------
 
-```project-root/
+```
+ThetaStrike/
 │
 ├── Backend/                 FastAPI backend
 │   ├── src/
