@@ -16,17 +16,19 @@ Features
 
 ------------------------------------------------------------
 Project Structure
-------------------------------------------------------------
+-----------------
+
 project-root/
-│── Backend/                FastAPI backend
-│   ├── src/
-│   │   ├── core/           Pricing models (Black–Scholes, Binomial)
-│   │   ├── apis/           yfinance data fetchers
-│   │   ├── pricing_engine/ Evaluation wrapper
-│   │   └── api_server.py   FastAPI entrypoint
-│   └── test/               Unit tests
 │
-│── Frontend/               React frontend (Vite + CSS)
+├── Backend/                 FastAPI backend
+│   ├── src/
+│   │   ├── core/            Pricing models (Black–Scholes, Binomial)
+│   │   ├── apis/            yfinance data fetchers
+│   │   ├── pricing_engine/  Evaluation wrapper
+│   │   └── api_server.py    FastAPI entrypoint
+│   └── test/                Unit tests
+│
+├── Frontend/                React frontend (Vite + CSS)
 │   ├── src/
 │   │   ├── App.js
 │   │   ├── App.css
@@ -34,7 +36,8 @@ project-root/
 │   │       └── OptionForm.js
 │   └── index.html
 │
-└── README.txt              Project documentation
+└── README.txt               Project documentation
+
 
 ------------------------------------------------------------
 Backend Setup
