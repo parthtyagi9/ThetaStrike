@@ -108,7 +108,7 @@ def get_stock_price(ticker: str, period: str = "1d", interval: str = "1m", rth: 
     if not rth:
         base["latest"]["outside_rth"] = float(outside_rth) if outside_rth else None
 
-    return base
+    return base 
 
 
 if __name__ == "__main__":
