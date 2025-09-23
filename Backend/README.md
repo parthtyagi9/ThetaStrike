@@ -1,6 +1,6 @@
 ThetaStrike — Option Pricing Engine
 
-ThetaStrike is a Python + React project that allows you to evaluate European and American option premiums.
+ThetaStrike is a Python(Flask) + React project that allows you to evaluate European and American option premiums.
 It uses Black–Scholes for European options and a binomial tree model for American options.
 A FastAPI backend powers the pricing logic, while a React frontend provides a simple UI.
 
@@ -50,7 +50,7 @@ Backend runs at: http://127.0.0.1:8000
 Interactive docs: http://127.0.0.1:8000/docs
 
 ------------------------------------------------------------
-Frontend Setup
+Frontend Setup (IN PROGRESS)
 ------------------------------------------------------------
 1. Install dependencies:
    cd Frontend
