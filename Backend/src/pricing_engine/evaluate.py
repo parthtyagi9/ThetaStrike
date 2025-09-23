@@ -18,7 +18,7 @@ class EvaluationParams:
     sigma: float      # volatility
     steps: int = 1000  # binomial steps for American
     q: float = 0.0
-
+ 
 
 def evaluate_option_price(params: EvaluationParams) -> float:
     """
