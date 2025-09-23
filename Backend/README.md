@@ -1,14 +1,100 @@
-# thetastrike
-This software estimates the future value of financial options using mathematical models, such as the Black-Scholes model and Monte Carlo simulation. It is intended for traders, quantitative analysts, and developers who want to analyse the expected worth of options under various market assumptions.
+ThetaStrike — Option Pricing Engine
 
-Features:
-- Estimate the future value of European call and put options
+ThetaStrike is a Python + React project that allows you to evaluate European and American option premiums.
+It uses Black–Scholes for European options and a binomial tree model for American options.
+A FastAPI backend powers the pricing logic, while a React frontend provides a simple UI.
 
-- Black-Scholes model implementation
+------------------------------------------------------------
+Features
+------------------------------------------------------------
+- European option pricing via Black–Scholes model
+- American option pricing via binomial tree model
+- Fetch stock and option chain data using yfinance
+- Predict option premiums at future dates and stock prices
+- API endpoints exposed with FastAPI
+- Frontend UI built with React (Vite) and plain CSS
 
-- Monte Carlo simulation for stochastic estimation
+------------------------------------------------------------
+Project Structure
+------------------------------------------------------------
+project-root/
+│── Backend/                FastAPI backend
+│   ├── src/
+│   │   ├── core/           Pricing models (Black–Scholes, Binomial)
+│   │   ├── apis/           yfinance data fetchers
+│   │   ├── pricing_engine/ Evaluation wrapper
+│   │   └── api_server.py   FastAPI entrypoint
+│   └── test/               Unit tests
+│
+│── Frontend/               React frontend (Vite + CSS)
+│   ├── src/
+│   │   ├── App.js
+│   │   ├── App.css
+│   │   └── components/
+│   │       └── OptionForm.js
+│   └── index.html
+│
+└── README.txt              Project documentation
 
-- Configurable input parameters: underlying price, strike price, time to maturity, volatility, risk-free rate, and option type
+------------------------------------------------------------
+Backend Setup
+------------------------------------------------------------
+1. Install dependencies:
+   cd Backend
+   pip install -r requirements.txt
 
-- Modular and extensible for adding custom pricing models
+2. Run FastAPI server:
+   uvicorn src.api_server:app --reload
 
+Backend runs at: http://127.0.0.1:8000
+Interactive docs: http://127.0.0.1:8000/docs
+
+------------------------------------------------------------
+Frontend Setup
+------------------------------------------------------------
+1. Install dependencies:
+   cd Frontend
+   npm install
+
+2. Run development server:
+   npm run dev
+
+Frontend runs at: http://localhost:5173
+
+------------------------------------------------------------
+Example API Usage
+------------------------------------------------------------
+Request:
+GET /option-price?model=american&ticker=NVDA&expiry=2025-09-26&strike=190&option_type=call
+
+Response:
+{
+  "ticker": "NVDA",
+  "expiry": "2025-09-26",
+  "strike": 190,
+  "option_type": "call",
+  "predict_date": "today",
+  "model": "american",
+  "premium": 35.42
+}
+
+------------------------------------------------------------
+Frontend Features
+------------------------------------------------------------
+- Select European (Black–Scholes) or American (Binomial) model
+- Enter ticker, expiry date, strike, call/put
+- Optional: future date to predict premium
+- Displays calculated premium from backend
+
+------------------------------------------------------------
+Roadmap
+------------------------------------------------------------
+- Add ML model to predict stock prices and volatility
+- Auto-populate expiries and strikes from option chain API
+- Database caching for faster repeated queries
+- Deployment (backend to Render/Heroku, frontend to Vercel/Netlify)
+
+------------------------------------------------------------
+License
+------------------------------------------------------------
+MIT License — free to use and modify.
