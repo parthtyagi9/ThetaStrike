@@ -1,14 +1,47 @@
-# thetastrike
-This software estimates the future value of financial options using mathematical models, such as the Black-Scholes model and Monte Carlo simulation. It is intended for traders, quantitative analysts, and developers who want to analyse the expected worth of options under various market assumptions.
+ThetaStrike — Option Pricing Engine
 
-Features:
-- Estimate the future value of European call and put options
+ThetaStrike is a Python(Flask) + React project that allows you to evaluate European and American option premiums.
+It uses Black–Scholes for European options and a binomial tree model for American options.
+A FastAPI backend powers the pricing logic, while a React frontend provides a simple UI.
+------------------------------------------------------------
+Backend Setup
+------------------------------------------------------------
+1. Install dependencies:
+   cd Backend
+   pip install -r requirements.txt
 
-- Black-Scholes model implementation
+2. Run FastAPI server:
+   uvicorn src.api_server:app --reload
 
-- Monte Carlo simulation for stochastic estimation
+Backend runs at: http://127.0.0.1:8000
+Interactive docs: http://127.0.0.1:8000/docs
 
-- Configurable input parameters: underlying price, strike price, time to maturity, volatility, risk-free rate, and option type
+------------------------------------------------------------
+Example API Usage
+------------------------------------------------------------
+Request:
+GET /option-price?model=american&ticker=NVDA&expiry=2025-09-26&strike=190&option_type=call
 
-- Modular and extensible for adding custom pricing models
+Response:
+{
+  "ticker": "NVDA",
+  "expiry": "2025-09-26",
+  "strike": 190,
+  "option_type": "call",
+  "predict_date": "today",
+  "model": "american",
+  "premium": 35.42
+}
 
+------------------------------------------------------------
+Roadmap
+------------------------------------------------------------
+- Add ML model to predict stock prices and volatility
+- Auto-populate expiries and strikes from option chain API
+- Database caching for faster repeated queries
+- Deployment (backend to Render/Heroku, frontend to Vercel/Netlify)
+
+------------------------------------------------------------
+License
+------------------------------------------------------------
+MIT License — free to use and modify.
