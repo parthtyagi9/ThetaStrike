@@ -24,7 +24,7 @@ def option_price(
         info = tk.info
         div_yield = info.get("dividendYield", 0.0) or 0.0
     if rth:
-        S_now = float(stock_df["close"].iloc[-1])
+        S_now = stock_df["close"].iloc[-1].item()
     else:
         info = tk.info
         S_now = info.get("preMarketPrice") or info.get("postMarketPrice") or info.get("regularMarketPrice")
