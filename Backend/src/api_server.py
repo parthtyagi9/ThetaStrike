@@ -5,7 +5,19 @@ from datetime import datetime
 import pandas as pd
 import yfinance as yf
 
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI()
+
+# Allow frontend (React on port 5173) to call backend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # or ["*"] to allow all
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 @app.get("/option-price")
 def option_price(
