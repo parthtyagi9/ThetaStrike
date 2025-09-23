@@ -57,7 +57,7 @@ Backend runs at: http://127.0.0.1:8000
 Interactive docs: http://127.0.0.1:8000/docs
 
 ------------------------------------------------------------
-Frontend Setup (IN PROGRESS)
+Frontend Setup
 ------------------------------------------------------------
 1. Install dependencies:
    cd Frontend
