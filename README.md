@@ -18,7 +18,7 @@ Features
 Project Structure
 -----------------
 
-project-root/
+```project-root/
 │
 ├── Backend/                 FastAPI backend
 │   ├── src/
@@ -36,7 +36,10 @@ project-root/
 │   │       └── OptionForm.js
 │   └── index.html
 │
-└── README.txt               Project documentation
+└── README.txt
+```  
+
+Project documentation
 
 
 ------------------------------------------------------------
