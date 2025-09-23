@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, HTTPException
 from src.apis.yfinancee import get_option_chain_by_expiry, get_stock_data, get_iv
 from src.pricing_engine.evaluate import EvaluationParams, evaluate_option_price
 from datetime import datetime
@@ -12,7 +12,7 @@ app = FastAPI()
 # Allow frontend (React on port 5173) to call backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # or ["*"] to allow all
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -50,7 +50,6 @@ def option_price(
     else:
         t_elapsed = 0.0
 
-    # Dummy assumptions (To be replaced with ML later)
     r = 0.05
     sigma = get_iv(ticker=ticker, expiry=expiry, strike=strike, option_type=option_type)
     # sigma = 0.2
@@ -80,6 +79,37 @@ def option_price(
         "spot_price_used": S_now,
         "premium": price
     }
+
+@app.get("/stock/{ticker}/price")
+def get_stock_price(ticker: str, period: str = "1d", interval: str = "1m", rth: bool = False):
+    tk = yf.Ticker(ticker)
+    info = tk.info
+    df = tk.history(period=period, interval=interval)
+
+    if df.empty:
+        raise HTTPException(status_code=404, detail="No price data found")
+
+    latest = df.iloc[-1]
+
+    outside_rth = info.get("preMarketPrice") or info.get("postMarketPrice") or info.get("regularMarketPrice")
+
+    base = {
+        "ticker": ticker.upper(),
+        "latest": {
+            "datetime": str(latest.name),
+            "open": float(latest["Open"]),
+            "high": float(latest["High"]),
+            "low": float(latest["Low"]),
+            "close": float(latest["Close"]),
+            "volume": int(latest["Volume"]),
+        }
+    }
+
+    if not rth:
+        base["latest"]["outside_rth"] = float(outside_rth) if outside_rth else None
+
+    return base
+
 
 if __name__ == "__main__":
     import uvicorn
