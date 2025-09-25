@@ -72,8 +72,8 @@ Frontend runs at: http://localhost:5173
 Example API Usage
 ------------------------------------------------------------
 Request:
+```
 GET /option-price?model=american&ticker=NVDA&expiry=2025-09-26&strike=190&option_type=call
-
 Response:
 {
   "ticker": "NVDA",
@@ -84,6 +84,7 @@ Response:
   "model": "american",
   "premium": 35.42
 }
+```
 
 ------------------------------------------------------------
 Frontend Features
