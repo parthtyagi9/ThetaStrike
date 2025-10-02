@@ -26,7 +26,7 @@ fonttools==4.56.0
 funcy==2.0
 gast==0.6.0
 gensim==4.3.3
-git-filter-repo==2.47.0
+git-filter-repo==2.47.0 
 google-ai-generativelanguage==0.6.15
 google-api-core==2.24.2
 google-api-python-client==2.165.0
