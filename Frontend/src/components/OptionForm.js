@@ -128,7 +128,7 @@ function OptionForm() {
                 React.createElement("tbody", { key: "body" }, [
                   React.createElement("tr", { key: "premium" }, [
                     React.createElement("td", { key: "label" }, "Theoretical Price"),
-                    React.createElement(
+                    React.createElement( 
                       "td",
                       { key: "value" },
                       result.premium !== undefined && result.premium !== null
