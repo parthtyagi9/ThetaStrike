@@ -161,15 +161,16 @@ Roadmap
 ------------------------------------------------------------
 Tech Stack
 ------------------------------------------------------------
-Layer                Technology
-------------------------------------------------------------
-Frontend             React (Vite, plain CSS)
-Backend API          FastAPI (Python 3.10+)
-Pricing Models       Black–Scholes, Binomial Tree
-ML Models            XGBoost, scikit-learn, optional LSTM (TensorFlow)
-Market Data          yfinance API
-Data Libraries       NumPy, Pandas, SciPy
-Hosting              Render (backend), Vercel (frontend)
+
+| Layer | Technology |
+|--------|-------------|
+| **Frontend** | React (Vite, plain CSS) |
+| **Backend API** | FastAPI (Python 3.10+) |
+| **Pricing Models** | Black–Scholes, Binomial Tree |
+| **ML Models** | XGBoost, scikit-learn, optional LSTM (TensorFlow) |
+| **Market Data** | yfinance API |
+| **Data Libraries** | NumPy, Pandas, SciPy |
+| **Hosting** | Render (backend), Vercel (frontend) |
 
 ------------------------------------------------------------
 License
