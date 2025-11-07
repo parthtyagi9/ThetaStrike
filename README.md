@@ -1,18 +1,43 @@
-ThetaStrike — Option Pricing Engine
+ThetaStrike — AI-Powered Options Pricing & Analytics Engine
 
-ThetaStrike is a Python(Flask) + React project that allows you to evaluate European and American option premiums.
-It uses Black–Scholes for European options and a binomial tree model for American options.
-A FastAPI backend powers the pricing logic, while a React frontend provides a simple UI.
+ThetaStrike is a full-stack quantitative finance platform built using FastAPI and React, designed to evaluate, compare, and forecast European and American option premiums.
+It combines mathematical pricing models (Black-Scholes and Binomial Tree) with machine learning prediction pipelines to forecast future stock prices, implied volatility, and option moneyness (ITM/OTM likelihood).
 
 ------------------------------------------------------------
-Features
+Key Features
 ------------------------------------------------------------
-- European option pricing via Black–Scholes model
-- American option pricing via binomial tree model
-- Fetch stock and option chain data using yfinance
-- Predict option premiums at future dates and stock prices
-- API endpoints exposed with FastAPI
-- Frontend UI built with React (Vite) and plain CSS
+- **Option Pricing Models**
+  - European options priced using the Black–Scholes model
+  - American options priced using a discrete binomial tree model
+  - Compute current or future option premiums based on predicted stock price and time to maturity
+- **Market Data Integration**
+  - Fetch live stock data, option chains, and expiries using the yfinance API
+  - Endpoints:
+    - `/stock/{ticker}/price` — fetches OHLC + volume data
+    - `/option/{ticker}/chain` — returns full option chain by expiry
+    - `/option-price` — unified pricing endpoint
+- **Machine Learning Engine**
+  - ML module predicts future stock prices based on historical OHLC data
+  - Regression models (XGBoost / LSTM / ARIMA) trained on past stock movements
+  - Separate pipeline for implied volatility (IV) estimation using option chain history
+  - Predicts probability of option expiring ITM/OTM based on ML forecasts
+  - Integrated into backend `/evaluate-ml` endpoint for real-time predictions
+- **Unified Backend API (FastAPI)**
+  - RESTful API serving both pricing and ML predictions
+  - Modular structure with separated math models, ML models, and market data logic
+  - Fully documented endpoints available via `/docs`
+  - Deployed on Render with CORS-enabled frontend access
+- **Frontend Web Interface (React)**
+  - Clean single-page dashboard built with React and plain CSS
+  - Input fields for:
+    - Market type (European / American)
+    - Ticker symbol
+    - Expiry date
+    - Strike price
+    - Option type (Call / Put)
+    - Optional: future date for predicted premium
+  - Displays both model-based price and AI-predicted premium trend
+
 
 ------------------------------------------------------------
 Project Structure
@@ -21,15 +46,17 @@ Project Structure
 ```
 ThetaStrike/
 │
-├── Backend/                 FastAPI backend
+├── Backend/                       FastAPI backend
 │   ├── src/
-│   │   ├── core/            Pricing models (Black–Scholes, Binomial)
-│   │   ├── apis/            yfinance data fetchers
-│   │   ├── pricing_engine/  Evaluation wrapper
-│   │   └── api_server.py    FastAPI entrypoint
-│   └── test/                Unit tests
+│   │   ├── core/                  Pricing models (Black–Scholes, Binomial)
+│   │   ├── apis/                  yfinance data fetchers & market endpoints
+│   │   ├── pricing_engine/        Core evaluation wrapper
+│   │   ├── ml_engine/             Machine learning models & training scripts
+│   │   └── api_server.py          FastAPI entrypoint
+│   ├── test/                      Unit tests for pricing and ML modules
+│   └── requirements.txt           Production dependencies
 │
-├── Frontend/                React frontend (Vite + CSS)
+├── Frontend/                      React frontend (Vite + CSS)
 │   ├── src/
 │   │   ├── App.js
 │   │   ├── App.css
@@ -37,7 +64,7 @@ ThetaStrike/
 │   │       └── OptionForm.js
 │   └── index.html
 │
-└── README.txt
+└── README.txt                     Project documentation
 ```  
 
 Project documentation
@@ -95,14 +122,56 @@ Frontend Features
 - Displays calculated premium from backend
 
 ------------------------------------------------------------
+ML Workflow Overview
+------------------------------------------------------------
+- **Data Collection:** Historical price and option chain fetched via yfinance
+- **Feature Engineering:**
+  - Lagged returns, volatility, moving averages
+  - Option greeks and moneyness ratio
+- **Model Training:**
+  - Regression for price prediction (XGBoost / LSTM)
+  - Volatility forecast using rolling standard deviation or ML models
+- **Prediction Engine:**
+  - Predicts next-period stock price and implied volatility
+  - Computes expected option premium under both forecasts
+  - Outputs ITM/OTM classification
+
+------------------------------------------------------------
 Roadmap
 ------------------------------------------------------------
-- Add ML model to predict stock prices and volatility
-- Auto-populate expiries and strikes from option chain API
-- Database caching for faster repeated queries
-- Deployment (backend to Render/Heroku, frontend to Vercel/Netlify)
+- **Phase 1 — Core MVP (Complete)**
+  - FastAPI + React integration
+  - Black-Scholes and Binomial models
+  - yfinance live data endpoints
+- **Phase 2 — ML Integration (In Progress)**
+  - ML module to predict:
+    - Future stock price
+    - Implied volatility
+    - ITM/OTM probability
+  - Store training data and model weights locally
+- **Phase 3 — SWE Scalability**
+  - Add PostgreSQL database + caching
+  - Background training jobs (Celery + Redis)
+  - Dockerize for Render / AWS deployment
+- **Phase 4 — Full Product**
+  - User authentication
+  - Saved watchlists
+  - Mispricing dashboard (actual vs theoretical vs ML price)
+
+------------------------------------------------------------
+Tech Stack
+------------------------------------------------------------
+Layer                Technology
+------------------------------------------------------------
+Frontend             React (Vite, plain CSS)
+Backend API          FastAPI (Python 3.10+)
+Pricing Models       Black–Scholes, Binomial Tree
+ML Models            XGBoost, scikit-learn, optional LSTM (TensorFlow)
+Market Data          yfinance API
+Data Libraries       NumPy, Pandas, SciPy
+Hosting              Render (backend), Vercel (frontend)
 
 ------------------------------------------------------------
 License
 ------------------------------------------------------------
-MIT License — free to use and modify.
+MIT License — open source and free to modify.
