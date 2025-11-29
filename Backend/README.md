@@ -31,7 +31,7 @@ Response:
   "predict_date": "today",
   "model": "american",
   "premium": 35.42
-}
+} 
 
 ------------------------------------------------------------
 Roadmap
