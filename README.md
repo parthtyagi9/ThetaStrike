@@ -4,7 +4,7 @@ ThetaStrike is a full-stack quantitative finance platform built using FastAPI an
 It combines mathematical pricing models (Black-Scholes and Binomial Tree) with machine learning prediction pipelines to forecast future stock prices, implied volatility, and option moneyness (ITM/OTM likelihood).
 
 ------------------------------------------------------------
-Key Features
+Key Features 
 ------------------------------------------------------------
 - **Option Pricing Models**
   - European options priced using the Black–Scholes model
