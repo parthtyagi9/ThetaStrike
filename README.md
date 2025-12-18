@@ -1,5 +1,5 @@
 ThetaStrike — AI-Powered Options Pricing & Analytics Engine
-
+ 
 ThetaStrike is a full-stack quantitative finance platform built using FastAPI and React, designed to evaluate, compare, and forecast European and American option premiums.
 It combines mathematical pricing models (Black-Scholes and Binomial Tree) with machine learning prediction pipelines to forecast future stock prices, implied volatility, and option moneyness (ITM/OTM likelihood).
 
