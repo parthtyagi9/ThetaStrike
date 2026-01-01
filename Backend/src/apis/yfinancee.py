@@ -11,7 +11,7 @@ def get_stock_data(ticker_symbol: str, start_date: str = "2020-01-01", end: str 
     """
         Fetch historical OHLCV stock data using yfinance.
 
-    Args:
+    Args: 
         ticker (str): Stock ticker symbol (e.g., "AAPL", "MSFT").
         start (str): Start date in YYYY-MM-DD format.
         end (str): End date in YYYY-MM-DD format. Defaults to today if None.
