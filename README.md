@@ -16,7 +16,7 @@ Key Features
     - `/stock/{ticker}/price` — fetches OHLC + volume data
     - `/option/{ticker}/chain` — returns full option chain by expiry
     - `/option-price` — unified pricing endpoint
-- **Machine Learning Engine**
+- **Machine Learning Engine** 
   - ML module predicts future stock prices based on historical OHLC data
   - Regression models (XGBoost / LSTM / ARIMA) trained on past stock movements
   - Separate pipeline for implied volatility (IV) estimation using option chain history
