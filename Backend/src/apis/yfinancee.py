@@ -32,6 +32,7 @@ def fetch_option_data(ticker_symbol: str) -> pd.DataFrame:
     tk = yf.Ticker(ticker_symbol)
     expirations = tk.options
     out = {}
+    
 
     for exp in expirations:
         chain = tk.option_chain(exp) 
