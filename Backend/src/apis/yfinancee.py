@@ -10,7 +10,7 @@ import numpy as np
 def get_stock_data(ticker_symbol: str, start_date: str = "2020-01-01", end: str = None, interval: str = "1d") -> pd.DataFrame:
     """
         Fetch historical OHLCV stock data using yfinance.
-
+ 
     Args: 
         ticker (str): Stock ticker symbol (e.g., "AAPL", "MSFT").
         start (str): Start date in YYYY-MM-DD format.
@@ -34,7 +34,7 @@ def fetch_option_data(ticker_symbol: str) -> pd.DataFrame:
     out = {}
 
     for exp in expirations:
-        chain = tk.option_chain(exp)
+        chain = tk.option_chain(exp) 
         calls = chain.calls.assign(expiration=exp, option_type="call")
         puts = chain.puts.assign(expiration=exp, option_type="put")
         out[exp] = pd.concat([calls, puts], ignore_index=True)
