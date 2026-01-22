@@ -31,6 +31,7 @@ def american_binomial(p: OptionParamsBinomial) -> float:
     ]
 
     # backward induction
+    # iterate from the second last step to the root
     for i in range(p.steps - 1, -1, -1):
         new_vals = []
         for j in range(i + 1):
