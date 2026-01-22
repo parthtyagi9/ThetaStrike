@@ -3,9 +3,9 @@ import React, { useState } from "react";
 function OptionForm() {
   const [form, setForm] = useState({
     model: "european",
-    ticker: "AAPL",
-    expiry: "2025-09-26",
-    strike: 150,
+    ticker: "NVDA",
+    expiry: "2026-01-30",
+    strike: 200,
     option_type: "call",
     predict_date: "",
   });
