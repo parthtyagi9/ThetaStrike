@@ -139,7 +139,7 @@ function OptionForm() {
                   React.createElement("tr", { key: "ticker" }, [
                     React.createElement("td", null, "Ticker"),
                     React.createElement("td", null, result.ticker || "N/A")
-                  ]),
+                  ]), 
                   React.createElement("tr", { key: "expiry" }, [
                     React.createElement("td", null, "Expiry"),
                     React.createElement("td", null, result.expiry || "N/A")
