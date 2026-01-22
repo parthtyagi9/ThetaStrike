@@ -9,7 +9,7 @@ function OptionForm() {
     option_type: "call",
     predict_date: "",
   });
-
+ 
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
 
