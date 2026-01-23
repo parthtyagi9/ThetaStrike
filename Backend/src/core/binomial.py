@@ -41,7 +41,7 @@ def american_binomial(p: OptionParamsBinomial) -> float:
                 max(0.0, S_ij - p.K) if p.option_type == "call"
                 else max(0.0, p.K - S_ij)
             )
-            new_vals.append(max(cont, exer))
+            new_vals.append(max(cont, exer)) 
         vals = new_vals
 
     return vals[0]
