@@ -25,7 +25,7 @@ def american_binomial(p: OptionParamsBinomial) -> float:
 
 
     vals = [
-        max(0.0, (p.S * (u ** j) * (d ** (p.steps - j)) - p.K)) if p.option_type == "call"
+        max(0.0, (p.S * (u ** j) * (d ** (p.steps - j)) - p.K)) if p.option_type == "call" 
         else max(0.0, (p.K - p.S * (u ** j) * (d ** (p.steps - j))))
         for j in range(p.steps + 1)
     ]
