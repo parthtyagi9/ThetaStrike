@@ -4,47 +4,36 @@ import MLPredictions from "./components/MLPredictions";
 import "./App.css";
 
 function App() {
-  const [activeTab, setActiveTab] = useState("pricing");
+  const [tab, setTab] = useState("pricing");
 
-  return React.createElement(
-    "div",
-    { className: "app" },
-    [
-      React.createElement("h1", { className: "title", key: "title" }, "ThetaStrike"),
-      React.createElement(
-        "p",
-        { className: "subtitle", key: "subtitle" },
-        "AI-Powered Options Pricing & Analytics Engine"
+  return React.createElement("div", { className: "app" }, [
+    // Header
+    React.createElement("div", { className: "header", key: "hdr" }, [
+      React.createElement("h1", { className: "title", key: "t" }, "ThetaStrike"),
+      React.createElement("p", { className: "subtitle", key: "s" },
+        "Options pricing & analytics — Black-Scholes, Binomial, and ML models"
       ),
+    ]),
 
-      // Tab Navigation
-      React.createElement("div", { className: "tab-nav", key: "tabs" }, [
-        React.createElement(
-          "button",
-          {
-            className: "tab-btn" + (activeTab === "pricing" ? " active" : ""),
-            onClick: () => setActiveTab("pricing"),
-            key: "tab-pricing",
-          },
-          "Option Pricing"
-        ),
-        React.createElement(
-          "button",
-          {
-            className: "tab-btn" + (activeTab === "ml" ? " active" : ""),
-            onClick: () => setActiveTab("ml"),
-            key: "tab-ml",
-          },
-          "ML Predictions"
-        ),
-      ]),
+    // Tabs
+    React.createElement("nav", { className: "tab-nav", key: "nav" }, [
+      React.createElement("button", {
+        className: "tab-btn" + (tab === "pricing" ? " active" : ""),
+        onClick: () => setTab("pricing"),
+        key: "t1",
+      }, "Pricing"),
+      React.createElement("button", {
+        className: "tab-btn" + (tab === "ml" ? " active" : ""),
+        onClick: () => setTab("ml"),
+        key: "t2",
+      }, "ML Predictions"),
+    ]),
 
-      // Tab Content
-      activeTab === "pricing"
-        ? React.createElement(OptionForm, { key: "form" })
-        : React.createElement(MLPredictions, { key: "ml" }),
-    ]
-  );
+    // Page
+    tab === "pricing"
+      ? React.createElement(OptionForm, { key: "pricing" })
+      : React.createElement(MLPredictions, { key: "ml" }),
+  ]);
 }
 
 export default App;
