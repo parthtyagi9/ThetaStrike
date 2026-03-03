@@ -4,7 +4,7 @@ pandas==2.2.3
 numpy==1.26.4
 scipy==1.13.1
 yfinance==0.2.65
-scikit-learn==1.7.0     # keep if you add ML
+scikit-learn==1.7.0     # Ridge Regression + Random Forest
 xgboost==3.0.5          # keep if you add ML
 SQLAlchemy==2.0.39      # only if using DB
 python-dotenv==1.0.1    # if you want .env configs
