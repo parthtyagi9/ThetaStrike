@@ -2,8 +2,8 @@ import math
 from dataclasses import dataclass
 from typing import Literal
 
-from src.core.black_scholes import BlackScholes
-from src.core.binomial import OptionParamsBinomial, american_binomial
+from core.black_scholes import BlackScholes
+from core.binomial import OptionParamsBinomial, american_binomial
 
 
 @dataclass

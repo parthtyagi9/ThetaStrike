@@ -1,12 +1,14 @@
 import React, { useState } from "react";
+import TickerSearch from "./TickerSearch";
 
 const API = "http://127.0.0.1:8000";
 const h = React.createElement;
 
 function MLPredictions() {
+  const today = new Date().toISOString().slice(0, 10);
   const [form, setForm] = useState({
-    ticker: "NVDA", expiry: "2026-01-30", strike: 200,
-    option_type: "call", model: "european", predict_date: "",
+    ticker: "NVDA", expiry: today, strike: 200,
+    option_type: "call", model: "european", predict_date: today,
   });
   const [ivResult, setIvResult] = useState(null);
   const [mResult, setMResult] = useState(null);
@@ -86,14 +88,14 @@ function MLPredictions() {
     h("div", { className: "card", key: "inp" }, [
       h("h3", { className: "card-title", key: "t" }, "Model Inputs"),
       h("div", { className: "ml-field-grid", key: "fg" }, [
-        field("Ticker", "ticker", "text"),
+        h(TickerSearch, { value: form.ticker, onChange: (v) => setForm({ ...form, ticker: v }), key: "ticker" }),
         field("Strike", "strike", "number"),
-        field("Expiry", "expiry", "text", "YYYY-MM-DD"),
+        field("Expiry", "expiry", "date"),
         field("Option Type", "option_type", "select", [["call", "Call"], ["put", "Put"]]),
         field("Pricing Model", "model", "select", [
           ["european", "European (Black-Scholes)"], ["american", "American (Binomial)"],
         ]),
-        field("Predict Date", "predict_date", "text", "YYYY-MM-DD (optional)"),
+        field("Predict Date", "predict_date", "date"),
       ]),
       h("div", { className: "ml-btn-row", key: "btns" }, [
         h("button", { className: "btn btn-dark", onClick: train, disabled: busy.train, key: "b1" },

@@ -11,7 +11,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.model_selection import cross_val_score
 
-from src.ml_engine.data_pipeline import build_moneyness_dataset
+from ml_engine.data_pipeline import build_moneyness_dataset
 
 MODEL_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "data", "models")
 CLF_MODEL_PATH = os.path.join(MODEL_DIR, "moneyness_rf_model.pkl")
@@ -130,7 +130,7 @@ def predict_moneyness(
     Returns predicted class and class probabilities.
     """
     import yfinance as yf
-    from src.ml_engine.data_pipeline import compute_technical_indicators
+    from ml_engine.data_pipeline import compute_technical_indicators
     from datetime import datetime
 
     clf, scaler, le, feature_names = _load_moneyness_model()
@@ -154,7 +154,7 @@ def predict_moneyness(
         iv = iv_override
     else:
         try:
-            from src.apis.yfinancee import get_iv
+            from apis.yfinancee import get_iv
             iv = get_iv(ticker, expiry, strike, option_type)
         except Exception:
             iv = float(latest.get("hvol_20", 0.3))

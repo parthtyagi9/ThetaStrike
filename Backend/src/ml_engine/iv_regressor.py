@@ -12,7 +12,7 @@ from sklearn.linear_model import Ridge
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import cross_val_score
 
-from src.ml_engine.data_pipeline import build_iv_dataset
+from ml_engine.data_pipeline import build_iv_dataset
 
 MODEL_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "data", "models")
 IV_MODEL_PATH = os.path.join(MODEL_DIR, "iv_ridge_model.pkl")
@@ -104,7 +104,7 @@ def predict_iv(
     Returns dict with predicted_iv and feature snapshot.
     """
     import yfinance as yf
-    from src.ml_engine.data_pipeline import compute_technical_indicators
+    from ml_engine.data_pipeline import compute_technical_indicators
     from datetime import datetime
 
     model, scaler, feature_names = _load_iv_model()

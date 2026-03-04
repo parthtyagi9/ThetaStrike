@@ -1,11 +1,16 @@
+import os, sys
+# Ensure src/ is on the path so sibling packages resolve from any cwd
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 from fastapi import FastAPI, Query, HTTPException
-from src.apis.yfinancee import get_option_chain_by_expiry, get_stock_data, get_iv
-from src.pricing_engine.evaluate import EvaluationParams, evaluate_option_price
-from src.ml_engine.iv_regressor import train_iv_model, predict_iv
-from src.ml_engine.moneyness_classifier import train_moneyness_model, predict_moneyness
+from apis.yfinancee import get_option_chain_by_expiry, get_stock_data, get_iv
+from pricing_engine.evaluate import EvaluationParams, evaluate_option_price
+from ml_engine.iv_regressor import train_iv_model, predict_iv
+from ml_engine.moneyness_classifier import train_moneyness_model, predict_moneyness
 from datetime import datetime
 import pandas as pd
 import yfinance as yf
+import requests as _requests
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -118,6 +123,30 @@ def get_stock_history(ticker: str, period: str = "1d", interval: str = "1m"):
     # info = tk.info()
     df = tk.history(period=period, interval=interval)
     return{"history": df.tail(5).reset_index().to_dict(orient="records")}
+
+
+@app.get("/search-ticker")
+def search_ticker(q: str = Query(..., min_length=1)):
+    """Proxy Yahoo Finance autocomplete so the frontend can search tickers."""
+    try:
+        url = "https://query2.finance.yahoo.com/v1/finance/search"
+        resp = _requests.get(url, params={
+            "q": q, "quotesCount": 8, "newsCount": 0,
+            "listsCount": 0, "enableFuzzyQuery": False,
+        }, headers={"User-Agent": "Mozilla/5.0"}, timeout=3)
+        data = resp.json()
+        results = []
+        for item in data.get("quotes", []):
+            if item.get("quoteType") in ("EQUITY", "ETF", "INDEX"):
+                results.append({
+                    "symbol": item["symbol"],
+                    "name": item.get("shortname") or item.get("longname") or "",
+                    "type": item.get("quoteType", ""),
+                    "exchange": item.get("exchange", ""),
+                })
+        return results
+    except Exception:
+        return []
 
 
 # ──────────────────────────────────────────────────────────────
@@ -252,4 +281,4 @@ def ml_predict_moneyness(
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("src.api_server:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run("api_server:app", host="127.0.0.1", port=8000, reload=True)

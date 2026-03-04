@@ -1,13 +1,15 @@
 import React, { useState } from "react";
+import TickerSearch from "./TickerSearch";
 
 function OptionForm() {
+  const today = new Date().toISOString().slice(0, 10);
   const [form, setForm] = useState({
     model: "european",
     ticker: "NVDA",
-    expiry: "2026-01-30",
+    expiry: today,
     strike: 200,
     option_type: "call",
-    predict_date: "",
+    predict_date: today,
   });
 
   const [result, setResult] = useState(null);
@@ -63,11 +65,11 @@ function OptionForm() {
         ["european", "European (Black-Scholes)"],
         ["american", "American (Binomial)"],
       ]),
-      field("Ticker", "ticker", "text"),
+      h(TickerSearch, { value: form.ticker, onChange: (v) => setForm({ ...form, ticker: v }), key: "ticker" }),
       field("Option Type", "option_type", "select", [["call", "Call"], ["put", "Put"]]),
       field("Strike Price", "strike", "number"),
-      field("Expiry Date", "expiry", "text", "YYYY-MM-DD"),
-      field("Predict Date", "predict_date", "text", "YYYY-MM-DD (optional)"),
+      field("Expiry Date", "expiry", "date"),
+      field("Predict Date", "predict_date", "date"),
       h("button", {
         type: "submit", className: "btn btn-dark", key: "go",
         disabled: loading,
