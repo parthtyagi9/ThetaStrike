@@ -10,7 +10,7 @@ Market data pulled live from Yahoo Finance via yfinance.
 
 ---
 
-## Project Structure
+## Project Structure 
  
 ```
 Backend/
