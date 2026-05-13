@@ -1,6 +1,6 @@
 # ThetaStrike
 
-Options pricing and analytics platform. FastAPI backend, React frontend.
+Options pricing and analytics platform. FastAPI backend, React frontend. 
 
 Prices European options (Black-Scholes) and American options (Binomial Tree), with two ML models layered on top:
 - **Ridge Regression** — predicts implied volatility from stock indicators, then feeds it into the pricing engine to produce an ML-driven premium
